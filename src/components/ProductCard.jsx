@@ -1,19 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useProducts } from "../context/ProductContext";
 
 export default function ProductCard({ product }) {
   const { t, lang } = useLanguage();
-  const { setProductPhoto, deleteProduct } = useProducts();
-  const inputRef = useRef();
-
-  const handlePhoto = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setProductPhoto(product.id, url);
-    }
-  };
+  const { deleteProduct } = useProducts();
 
   return (
     <div
@@ -28,7 +19,7 @@ export default function ProductCard({ product }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginBottom: 18
+        marginBottom: 18,
       }}
     >
       <h4 style={{ marginBottom: 14, color: "#475569", fontWeight: 600 }}>
@@ -44,7 +35,7 @@ export default function ProductCard({ product }) {
             borderRadius: 7,
             objectFit: "cover",
             marginBottom: 11,
-            background: "#e0e7ef"
+            background: "#e0e7ef",
           }}
         />
       ) : (
@@ -57,29 +48,17 @@ export default function ProductCard({ product }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: 11
+            marginBottom: 11,
           }}
         >
           <span style={{ color: "#b5b5b5", fontSize: 16 }}>{t("noPhoto")}</span>
         </div>
       )}
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        style={{ display: "none" }}
-        onChange={handlePhoto}
-      />
-      <button
-        onClick={() => inputRef.current.click()}
-        className="card-btn-main"
-      >
-        {t("takePhoto")}
-      </button>
+
       <button
         onClick={() => deleteProduct(product.id)}
         className="card-btn-delete"
+        style={{ marginTop: 7 }}
       >
         {t("delete")}
       </button>
